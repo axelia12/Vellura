@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+:root {
+  --color-noir: #0b0b0b;
+  --color-noir-raised: #121212;
+  --color-gold: #c6a46a;
+  --color-gold-soft: #d8c4a0;
+  --color-emerald: #0f3d2e;
+  --color-ivory: #f3f1ec;
+  --color-mist: #8a8a85;
+}
+
+@theme inline {
+  --color-noir: var(--color-noir);
+  --color-noir-raised: var(--color-noir-raised);
+  --color-gold: var(--color-gold);
+  --color-gold-soft: var(--color-gold-soft);
+  --color-emerald: var(--color-emerald);
+  --color-ivory: var(--color-ivory);
+  --color-mist: var(--color-mist);
+  --font-display: var(--font-playfair);
+  --font-body: var(--font-inter);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-noir);
+  color: var(--color-ivory);
+  font-family: var(--font-body), Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-noir);
+}
+
+a {
+  color: inherit;
+}
+
+input, textarea, select {
+  background: transparent;
+}
+
+.editorial-content h2 {
+  font-size: 1.75rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--color-ivory);
+}
+
+.editorial-content h3 {
+  font-size: 1.35rem;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.editorial-content p {
+  margin-bottom: 1.25rem;
+  line-height: 1.85;
+  color: rgba(243, 241, 236, 0.85);
+}
+
+.editorial-content a {
+  color: var(--color-gold);
+  text-decoration: underline;
+  text-decoration-color: rgba(198, 164, 106, 0.4);
+}
+
+.editorial-content blockquote {
+  border-left: 2px solid var(--color-gold);
+  padding-left: 1.5rem;
+  margin: 2rem 0;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.25rem;
+  color: var(--color-gold-soft);
+}
+
+.editorial-content ul, .editorial-content ol {
+  margin: 1.25rem 0 1.25rem 1.5rem;
+  color: rgba(243, 241, 236, 0.85);
+}
+
+.editorial-content img {
+  margin: 2.5rem 0;
+}
