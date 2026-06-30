@@ -1,5 +1,16 @@
 @import "tailwindcss";
 
+@keyframes vellura-trace {
+  0%   { stroke-dashoffset: 165; opacity: 0.05; }
+  40%  { stroke-dashoffset: 0;   opacity: 0.22; }
+  60%  { stroke-dashoffset: 0;   opacity: 0.22; }
+  100% { stroke-dashoffset: 165; opacity: 0.05; }
+}
+
+.vellura-trace-path {
+  animation: vellura-trace 6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
 :root {
   --color-noir: #0b0b0b;
   --color-noir-raised: #121212;
