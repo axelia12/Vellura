@@ -16,7 +16,7 @@ export default function ArticleCard({ article }: { article: Article }) {
   const img = imageUrl(article.featuredImage);
   return (
     <Link href={`/journal/${article.slug}`} className="group block">
-      <div className="aspect-[4/3] w-full overflow-hidden bg-noir-raised border border-white/10">
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-noir-raised border border-white/10">
         {img ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
