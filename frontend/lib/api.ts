@@ -16,7 +16,7 @@ export async function getArticles(params: {
 
   try {
     const res = await fetch(`${API_URL}/api/articles?${query.toString()}`, {
-      next: { revalidate: 60 },
+      cache: "no-store",
     });
     if (!res.ok) return { articles: [], total: 0, page: 1, pageSize: params.pageSize ?? 9 };
     return res.json();
