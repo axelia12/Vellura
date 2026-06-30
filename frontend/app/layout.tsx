@@ -80,6 +80,15 @@ export default function RootLayout({
           `}
         </Script>
       </head>
+      <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8FJ4CPBT8R"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8FJ4CPBT8R');
+</script>
       <body className="min-h-full flex flex-col bg-noir text-ivory">
         <script
           type="application/ld+json"
