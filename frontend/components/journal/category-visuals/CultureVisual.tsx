@@ -1,41 +1,29 @@
 "use client";
 
-// Abstract points orbiting an invisible center.
-// 3 concentric orbits rotating at different speeds and directions.
-// Reads as: social gravity, shared meaning, quiet collective relevance.
+// Shared gravity.
+// Points orbit an invisible center. No orbit rings — the center is felt, not seen.
+// The inner group moves faster. The outer group drifts in reverse.
+// Almost static. The motion is noticed only after looking away.
 
-const CX = 400;
-const CY = 225;
+const CX = 372;
+const CY = 238;
 
-// Orbit definitions: rx, ry, dot count, starting angles (degrees), dot size, opacity
-const ORBITS = [
-  {
-    rx: 72, ry: 43,
-    dots: [0, 118, 242],
-    r: 2.2, op: 0.55,
-    orbitOp: 0.10,
-    cls: "cv-cul-g1",
-  },
-  {
-    rx: 138, ry: 82,
-    dots: [28, 112, 196, 302],
-    r: 1.8, op: 0.38,
-    orbitOp: 0.07,
-    cls: "cv-cul-g2",
-  },
-  {
-    rx: 214, ry: 128,
-    dots: [14, 98, 188, 272],
-    r: 1.4, op: 0.24,
-    orbitOp: 0.05,
-    cls: "cv-cul-g3",
-  },
+// Dot positions are pre-calculated from orbital angles.
+// Inner orbit (rx=58, ry=35): 3 dots
+const INNER_DOTS = [
+  { x: CX + 58 * Math.cos((20  * Math.PI) / 180), y: CY + 35 * Math.sin((20  * Math.PI) / 180) },
+  { x: CX + 58 * Math.cos((148 * Math.PI) / 180), y: CY + 35 * Math.sin((148 * Math.PI) / 180) },
+  { x: CX + 58 * Math.cos((268 * Math.PI) / 180), y: CY + 35 * Math.sin((268 * Math.PI) / 180) },
 ];
 
-function orbitPoint(cx: number, cy: number, rx: number, ry: number, deg: number) {
-  const rad = (deg * Math.PI) / 180;
-  return { x: cx + rx * Math.cos(rad), y: cy + ry * Math.sin(rad) };
-}
+// Outer orbit (rx=152, ry=91): 5 dots
+const OUTER_DOTS = [
+  { x: CX + 152 * Math.cos((45  * Math.PI) / 180), y: CY + 91 * Math.sin((45  * Math.PI) / 180) },
+  { x: CX + 152 * Math.cos((130 * Math.PI) / 180), y: CY + 91 * Math.sin((130 * Math.PI) / 180) },
+  { x: CX + 152 * Math.cos((200 * Math.PI) / 180), y: CY + 91 * Math.sin((200 * Math.PI) / 180) },
+  { x: CX + 152 * Math.cos((285 * Math.PI) / 180), y: CY + 91 * Math.sin((285 * Math.PI) / 180) },
+  { x: CX + 152 * Math.cos((352 * Math.PI) / 180), y: CY + 91 * Math.sin((352 * Math.PI) / 180) },
+];
 
 export default function CultureVisual({ className = "" }: { className?: string }) {
   return (
@@ -48,38 +36,29 @@ export default function CultureVisual({ className = "" }: { className?: string }
     >
       <rect width="800" height="450" fill="#0B0B0B" />
 
-      {/* Green wash — diffuse, center-left */}
-      <ellipse cx="320" cy="240" rx="260" ry="160"
-        fill="#0F3D2E" opacity="0.08" />
+      {/* Green undertone — diffuse wash from center-left */}
+      <ellipse cx="310" cy="255" rx="285" ry="180"
+        fill="#0F3D2E" opacity="0.07" />
 
-      {/* Static orbit ellipses (reference paths) */}
-      {ORBITS.map((o, i) => (
-        <ellipse key={`orbit-${i}`}
-          cx={CX} cy={CY} rx={o.rx} ry={o.ry}
-          fill="none" stroke="#C6A46A"
-          strokeOpacity={o.orbitOp} strokeWidth="0.5"
-          strokeDasharray="1.5 6" />
-      ))}
+      {/* Inner orbit group — 65s clockwise */}
+      <g className="cv-cul-g1" style={{ transformOrigin: `${CX}px ${CY}px` }}>
+        {INNER_DOTS.map((d, i) => (
+          <circle key={i}
+            cx={d.x} cy={d.y} r="1.9"
+            fill="#C6A46A" opacity="0.38"
+          />
+        ))}
+      </g>
 
-      {/* Center gravity point */}
-      <circle cx={CX} cy={CY} r="1.4" fill="#C6A46A" opacity="0.18" />
-
-      {/* Rotating dot groups */}
-      {ORBITS.map((o, i) => (
-        <g
-          key={`g-${i}`}
-          className={o.cls}
-          style={{ transformOrigin: `${CX}px ${CY}px` }}
-        >
-          {o.dots.map((deg, j) => {
-            const pt = orbitPoint(CX, CY, o.rx, o.ry, deg);
-            return (
-              <circle key={j} cx={pt.x} cy={pt.y} r={o.r}
-                fill="#C6A46A" opacity={o.op} />
-            );
-          })}
-        </g>
-      ))}
+      {/* Outer orbit group — 98s counter-clockwise */}
+      <g className="cv-cul-g2" style={{ transformOrigin: `${CX}px ${CY}px` }}>
+        {OUTER_DOTS.map((d, i) => (
+          <circle key={i}
+            cx={d.x} cy={d.y} r="1.4"
+            fill="#C6A46A" opacity="0.24"
+          />
+        ))}
+      </g>
     </svg>
   );
 }

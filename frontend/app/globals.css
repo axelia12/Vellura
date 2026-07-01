@@ -1,51 +1,47 @@
 @import "tailwindcss";
 
 /* ── Category Visual Animations ───────────────────────────────────── */
-@keyframes cv-fade-a { 0%,100%{opacity:.07} 50%{opacity:.18} }
-@keyframes cv-fade-b { 0%,100%{opacity:.13} 50%{opacity:.30} }
-@keyframes cv-fade-c { 0%,100%{opacity:.24} 50%{opacity:.50} }
-@keyframes cv-fade-d { 0%,100%{opacity:.40} 50%{opacity:.72} }
-@keyframes cv-fade-e { 0%,100%{opacity:.58} 50%{opacity:.92} }
-@keyframes cv-signal { 0%,100%{opacity:.32} 40%,60%{opacity:.82} }
+/* Opacity ranges: 20% lower than previous, very long durations.
+   Motion should feel like breathing, not pulsing. */
+@keyframes cv-fade-a { 0%,100%{opacity:.04} 50%{opacity:.11} }
+@keyframes cv-fade-b { 0%,100%{opacity:.08} 50%{opacity:.20} }
+@keyframes cv-fade-c { 0%,100%{opacity:.16} 50%{opacity:.34} }
+@keyframes cv-fade-d { 0%,100%{opacity:.28} 50%{opacity:.50} }
+@keyframes cv-fade-e { 0%,100%{opacity:.42} 50%{opacity:.66} }
 @keyframes cv-orbit  { to { transform: rotate(360deg); } }
-@keyframes cv-rise   { 0%,100%{transform:scaleY(1)} 50%{transform:scaleY(1.07)} }
+@keyframes cv-rise   { 0%,100%{transform:scaleY(1)} 50%{transform:scaleY(1.045)} }
 
-/* Reputation */
-.cv-rep-r5 { animation: cv-fade-a 16s ease-in-out infinite; }
-.cv-rep-r4 { animation: cv-fade-b 13s ease-in-out infinite 2.5s; }
-.cv-rep-r3 { animation: cv-fade-c 11s ease-in-out infinite 1s; }
-.cv-rep-r2 { animation: cv-fade-d 9s ease-in-out infinite 0.8s; }
-.cv-rep-r1 { animation: cv-fade-e 8s ease-in-out infinite; }
+/* Reputation — concentric circles breathe inward */
+.cv-rep-r4 { animation: cv-fade-a 18s ease-in-out infinite; }
+.cv-rep-r3 { animation: cv-fade-b 17s ease-in-out infinite 3.5s; }
+.cv-rep-r2 { animation: cv-fade-c 15s ease-in-out infinite 1.5s; }
+.cv-rep-r1 { animation: cv-fade-d 13s ease-in-out infinite; }
 
-/* Communications */
-.cv-com-la { animation: cv-fade-a 15s ease-in-out infinite; }
-.cv-com-lb { animation: cv-fade-b 13s ease-in-out infinite 1s; }
-.cv-com-lc { animation: cv-fade-c 11s ease-in-out infinite 0.5s; }
-.cv-com-ld { animation: cv-fade-d 9s ease-in-out infinite 1.2s; }
-.cv-com-le { animation: cv-signal 7s ease-in-out infinite; }
+/* Communications — lines drift almost imperceptibly */
+.cv-com-line   { animation: cv-fade-b 17s ease-in-out infinite; }
+.cv-com-center { animation: cv-fade-d 15s ease-in-out infinite; }
 
 /* Brand Strategy */
-.cv-bs-dim  { animation: cv-fade-b 10s ease-in-out infinite; }
-.cv-bs-path { animation: cv-fade-d 6s ease-in-out infinite; }
-.cv-bs-node { animation: cv-fade-e 6s ease-in-out infinite; }
+.cv-bs-dim  { animation: cv-fade-a 16s ease-in-out infinite; }
+.cv-bs-path { animation: cv-fade-c 14s ease-in-out infinite; }
+.cv-bs-node { animation: cv-fade-d 14s ease-in-out infinite; }
 
-/* Culture */
-.cv-cul-g1 { animation: cv-orbit 52s linear infinite; }
-.cv-cul-g2 { animation: cv-orbit 78s linear infinite reverse; }
-.cv-cul-g3 { animation: cv-orbit 112s linear infinite; }
+/* Culture — invisible orbits, very slow */
+.cv-cul-g1 { animation: cv-orbit 65s linear infinite; }
+.cv-cul-g2 { animation: cv-orbit 98s linear infinite reverse; }
 
-/* Leadership */
+/* Leadership — single column barely breathes */
 .cv-lead-center {
   transform-box: fill-box;
   transform-origin: center bottom;
-  animation: cv-rise 14s ease-in-out infinite;
+  animation: cv-rise 16s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cv-rep-r1,.cv-rep-r2,.cv-rep-r3,.cv-rep-r4,.cv-rep-r5,
-  .cv-com-la,.cv-com-lb,.cv-com-lc,.cv-com-ld,.cv-com-le,
+  .cv-rep-r1,.cv-rep-r2,.cv-rep-r3,.cv-rep-r4,
+  .cv-com-line,.cv-com-center,
   .cv-bs-dim,.cv-bs-path,.cv-bs-node,
-  .cv-cul-g1,.cv-cul-g2,.cv-cul-g3,
+  .cv-cul-g1,.cv-cul-g2,
   .cv-lead-center { animation: none !important; }
 }
 /* ──────────────────────────────────────────────────────────────────── */

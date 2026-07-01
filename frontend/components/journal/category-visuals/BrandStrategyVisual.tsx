@@ -1,36 +1,23 @@
 "use client";
 
-// Decision map: 7 nodes, faint mesh, one emphasized path through center.
-// Reads as: choices considered, direction chosen, alignment achieved.
+// A decision architecture.
+// 4 nodes placed asymmetrically — not a diagram, a trace of thinking.
+// One path is clear. Others are present but unfinished.
+// Nothing is perfectly centered. The deliberate feels deliberate.
 
-const NODES = [
-  { id: 0, x: 138, y: 225 }, // origin
-  { id: 1, x: 278, y: 155 }, // upper branch
-  { id: 2, x: 278, y: 295 }, // lower branch
-  { id: 3, x: 400, y: 225 }, // junction — emphasized
-  { id: 4, x: 522, y: 158 }, // upper branch 2
-  { id: 5, x: 522, y: 292 }, // lower branch 2
-  { id: 6, x: 662, y: 225 }, // destination — emphasized
+// Main path nodes
+const MAIN: { x: number; y: number }[] = [
+  { x: 152, y: 258 },
+  { x: 308, y: 170 },
+  { x: 430, y: 232 },
+  { x: 598, y: 188 },
 ];
 
-const DIM_EDGES: [number, number][] = [
-  [0, 1], [0, 2],
-  [1, 3], [2, 3],
-  [3, 4], [3, 5],
-  [4, 6], [5, 6],
+// Ghost nodes — rejected or unexplored branches
+const GHOSTS: { x: number; y: number }[] = [
+  { x: 250, y: 318 }, // from MAIN[0], dead end
+  { x: 496, y: 300 }, // from MAIN[2], not taken
 ];
-
-// The chosen path
-const MAIN_EDGES: [number, number][] = [
-  [0, 3], [3, 6],
-];
-
-// Node emphasis: main path nodes
-const MAIN_NODE_IDS = new Set([0, 3, 6]);
-
-function getNode(id: number) {
-  return NODES.find((n) => n.id === id)!;
-}
 
 export default function BrandStrategyVisual({ className = "" }: { className?: string }) {
   return (
@@ -43,48 +30,55 @@ export default function BrandStrategyVisual({ className = "" }: { className?: st
     >
       <rect width="800" height="450" fill="#0B0B0B" />
 
-      {/* Green wash — lower-left depth */}
-      <ellipse cx="100" cy="390" rx="210" ry="130"
-        fill="#0F3D2E" opacity="0.10" />
+      {/* Green undertone — lower-left depth */}
+      <ellipse cx="115" cy="385" rx="245" ry="155"
+        fill="#0F3D2E" opacity="0.08" />
 
-      {/* Dim branch edges */}
-      {DIM_EDGES.map(([a, b]) => {
-        const na = getNode(a), nb = getNode(b);
-        return (
-          <line key={`${a}-${b}`}
-            x1={na.x} y1={na.y} x2={nb.x} y2={nb.y}
-            stroke="#C6A46A" strokeWidth="0.5"
-            className="cv-bs-dim" />
-        );
-      })}
+      {/* Ghost branches — barely visible, intentionally unfinished */}
+      <line
+        x1={MAIN[0].x} y1={MAIN[0].y}
+        x2={GHOSTS[0].x} y2={GHOSTS[0].y}
+        stroke="#C6A46A" strokeWidth="0.35"
+        className="cv-bs-dim"
+        strokeDasharray="1.5 5"
+      />
+      <line
+        x1={MAIN[2].x} y1={MAIN[2].y}
+        x2={GHOSTS[1].x} y2={GHOSTS[1].y}
+        stroke="#C6A46A" strokeWidth="0.35"
+        className="cv-bs-dim"
+        strokeDasharray="1.5 5"
+      />
 
-      {/* Emphasized center path */}
-      {MAIN_EDGES.map(([a, b]) => {
-        const na = getNode(a), nb = getNode(b);
-        return (
-          <line key={`m${a}-${b}`}
-            x1={na.x} y1={na.y} x2={nb.x} y2={nb.y}
-            stroke="#C6A46A" strokeWidth="1.1"
-            className="cv-bs-path" />
-        );
-      })}
+      {/* Main path edges */}
+      {MAIN.slice(0, -1).map((n, i) => (
+        <line
+          key={i}
+          x1={n.x} y1={n.y}
+          x2={MAIN[i + 1].x} y2={MAIN[i + 1].y}
+          stroke="#C6A46A" strokeWidth="0.55"
+          className="cv-bs-path"
+        />
+      ))}
 
-      {/* All nodes */}
-      {NODES.map((n) => {
-        const isMain = MAIN_NODE_IDS.has(n.id);
-        return (
-          <circle key={n.id}
-            cx={n.x} cy={n.y}
-            r={isMain ? 3.2 : 2}
-            fill="#C6A46A"
-            className={isMain ? "cv-bs-node" : "cv-bs-dim"} />
-        );
-      })}
+      {/* Ghost terminals — very small */}
+      {GHOSTS.map((g, i) => (
+        <circle key={i}
+          cx={g.x} cy={g.y} r="1.6"
+          fill="#C6A46A"
+          className="cv-bs-dim"
+        />
+      ))}
 
-      {/* Decision axis — very faint horizontal reference */}
-      <line x1="100" y1="225" x2="700" y2="225"
-        stroke="#C6A46A" strokeOpacity="0.04" strokeWidth="0.5"
-        strokeDasharray="3 8" />
+      {/* Main path nodes */}
+      {MAIN.map((n, i) => (
+        <circle key={i}
+          cx={n.x} cy={n.y}
+          r={i === 0 || i === MAIN.length - 1 ? 2.8 : 2.2}
+          fill="#C6A46A"
+          className="cv-bs-node"
+        />
+      ))}
     </svg>
   );
 }

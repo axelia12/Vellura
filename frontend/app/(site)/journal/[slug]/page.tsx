@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import FadeIn from "@/components/FadeIn";
+import CategoryVisual from "@/components/journal/category-visuals/CategoryVisual";
 import { getArticleBySlug, imageUrl } from "@/lib/api";
 
 export async function generateMetadata({
@@ -54,50 +55,68 @@ export default async function ArticlePage({
     image: image || undefined,
     datePublished: article.publishedAt || undefined,
     dateModified: article.updatedAt,
-    author: {
-      "@type": "Organization",
-      name: "Vellura",
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "Vellura",
-    },
+    author: { "@type": "Organization", name: "Vellura" },
+    publisher: { "@type": "Organization", name: "Vellura" },
   };
 
   return (
-    <article className="px-6 md:px-10 py-28 md:py-36 max-w-3xl mx-auto">
+    <article className="max-w-3xl mx-auto px-6 md:px-10">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <FadeIn>
-        <p className="text-xs uppercase tracking-[0.2em] text-gold">{article.category}</p>
-        <h1 className="font-display text-3xl md:text-5xl mt-5 leading-tight text-balance">
-          {article.title}
-        </h1>
-        {article.publishedAt && (
-          <p className="text-sm text-mist mt-6">
-            {new Date(article.publishedAt).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </p>
-        )}
-      </FadeIn>
 
+      {/* ── Hero — category visual lives behind the title ── */}
+      <div className="relative overflow-hidden pt-28 md:pt-36 pb-14">
+        {/* Atmospheric background — 160% scale, ~5.5% opacity */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          aria-hidden="true"
+          style={{ opacity: 0.055 }}
+        >
+          <div className="absolute inset-0 scale-[1.6] origin-center">
+            <CategoryVisual
+              category={article.category}
+              className="w-full h-full"
+            />
+          </div>
+        </div>
+
+        <FadeIn>
+          <div className="relative">
+            <p className="text-xs uppercase tracking-[0.2em] text-gold">
+              {article.category}
+            </p>
+            <h1 className="font-display text-3xl md:text-5xl mt-5 leading-tight text-balance">
+              {article.title}
+            </h1>
+            {article.publishedAt && (
+              <p className="text-sm text-mist mt-6">
+                {new Date(article.publishedAt).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </p>
+            )}
+          </div>
+        </FadeIn>
+      </div>
+
+      {/* ── Featured image ── */}
       {image && (
         <FadeIn delay={0.1}>
-          <div className="mt-12 aspect-[16/9] w-full overflow-hidden border border-white/10">
+          <div className="aspect-[16/9] w-full overflow-hidden border border-white/10">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={image} alt={article.title} className="h-full w-full object-cover" />
           </div>
         </FadeIn>
       )}
 
+      {/* ── Body ── */}
       <FadeIn delay={0.15}>
         <div
-          className="editorial-content mt-12"
+          className="editorial-content mt-12 pb-28 md:pb-36"
           dangerouslySetInnerHTML={{ __html: article.content }}
         />
       </FadeIn>
